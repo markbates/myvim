@@ -12,6 +12,8 @@ set encoding=utf-8
 set autowrite
 set autoread
 set laststatus=2
+set backspace=indent,eol,start
+set clipboard=unnamed
 
 "+++ Display Settings +++
 set t_Co=256
