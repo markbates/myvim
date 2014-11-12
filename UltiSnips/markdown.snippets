@@ -1,0 +1,33 @@
+snippet cl "Code Listing" b
+\begin{codelisting}
+\codecaption{$1}
+\label{code:$2}
+${3:<<(source/$4/$2.${5:txt}${6:, lang: text})}
+\end{codelisting}
+endsnippet
+
+snippet code "Code Block" b
+\`\`\`${1:text}
+$2
+\`\``
+endsnippet
+
+snippet reflist "Reference a Listing"
+Listing~\ref{code:$1}
+endsnippet
+
+snippet refsec "Reference a Section"
+Section~\ref{sec:$1}
+endsnippet
+
+snippet reftable "Reference a Table"
+Table~\ref{table:$1}
+endsnippet
+
+snippet refchap "Reference a Chapter"
+Chapter~\ref{chapter:$1}
+endsnippet
+
+snippet hl "Highlight Lines of Code"
+options: "hl_lines":[$1]
+endsnippet
