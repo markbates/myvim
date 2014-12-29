@@ -134,10 +134,15 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd FileType go map <leader>go :w<CR>:!gode run %<enter>
 autocmd FileType go map <leader>gom :w<CR>:!gode run main.go<enter>
 autocmd FileType go map <leader>r :w<CR>:!GO_ENV=test gode test ./...<enter>
+autocmd FileType go map <leader>b :w<CR>:!GO_ENV=test ./bench.sh<enter>
 autocmd FileType go map <leader>l :w<CR>:GoLint<enter>
 autocmd FileType go map <leader>v :w<CR>:GoVet<enter>
 let g:go_fmt_command = "goimports"
+let $PATH = "/usr/local/bin".$PATH
+let $GOPATH = "/Users/markbates/Dropbox/development/gocode"
+let g:go_bin_path = "/usr/local/bin"
 " autocmd BufWritePost *.go silent :!goimports -w %
+autocmd BufWritePost *.go silent :GoImports
 
 "+++ git +++
 map <leader>gst :!git status<enter>
