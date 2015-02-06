@@ -15,6 +15,7 @@ set autoread
 set laststatus=2
 set backspace=indent,eol,start
 set clipboard=unnamed
+let $PATH = "/usr/local/bin".$PATH
 
 "+++ Display Settings +++
 set t_Co=256
@@ -132,17 +133,20 @@ autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 "+++ Go +++
-autocmd FileType go map <leader>go :w<CR>:!gode run %<enter>
-autocmd FileType go map <leader>gom :w<CR>:!gode run main.go<enter>
-autocmd FileType go map <leader>r :w<CR>:!GO_ENV=test gode test ./...<enter>
-autocmd FileType go map <leader>b :w<CR>:!GO_ENV=test ./bench.sh<enter>
+let $GO_ENV="test"
+autocmd FileType go map <leader>go :w<CR>:GoRun<enter>
+autocmd FileType go map <leader>r :w<CR>:!go test ./...<enter>
+autocmd FileType go map <leader>rt :w<CR>:!./test.sh<enter>
+autocmd FileType go map <leader>b :w<CR>:!./bench.sh<enter>
 autocmd FileType go map <leader>l :w<CR>:GoLint<enter>
 autocmd FileType go map <leader>v :w<CR>:GoVet<enter>
-let g:go_fmt_command = "goimports"
-let $PATH = "/usr/local/bin".$PATH
+autocmd FileType go map <leader>mt :TestFile<enter>
+autocmd FileType go map <leader>mm :TestLast<enter>
+autocmd FileType go map <leader>mtl :TestNearest<enter>
+
 let $GOPATH = "/Users/markbates/Dropbox/development/gocode"
 let g:go_bin_path = "/usr/local/bin"
-" autocmd BufWritePost *.go silent :!goimports -w %
+let g:go_fmt_command = "goimports"
 autocmd BufWritePost *.go silent :GoImports
 
 "+++ git +++
