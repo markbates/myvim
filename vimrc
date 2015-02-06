@@ -1,4 +1,5 @@
 "+++ General +++
+set shell=bash
 let mapleader=","
 set noswapfile
 autocmd BufWritePre * :%s/\s\+$//e "strip trailing white space
@@ -158,12 +159,13 @@ autocmd FileType ruby map <leader>rb :!ruby -Ilib -Itest -Ispec %<enter>
 autocmd FileType ruby map <leader>r :!bundle exec rake<enter>
 autocmd FileType ruby map <leader>mt :!mt %<enter>
 autocmd FileType ruby map <leader>mm :!mt --last<enter>
-autocmd FileType ruby map <leader>mtl :!mt %:<C-r>=line('.')<enter><enter>
+autocmd FileType ruby map <leader>mtl :TestNearest<enter>
 " autocmd FileType ruby let g:ycm_auto_trigger = 0
 
 "+++ JavaScript/CoffeeScript +++
 autocmd FileType js map <leader>js :!node %<enter>
 autocmd FileType coffee map <leader>cs :!coffee %<enter>
+autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
 "+++ Markdown +++
 let g:markdown_fenced_languages=['ruby', 'erb=eruby', 'javascript', 'html', 'sh', 'coffeescript', 'go']
