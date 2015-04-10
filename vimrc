@@ -69,6 +69,7 @@ nmap <C-l> gt
 "+++ Search +++
 map <leader>k :NERDTreeToggle<enter>
 set grepprg=ag\ --nogroup\ --nocolor
+let NERDTreeIgnore=['\.vim$', '\~$', '^Godeps$']
 
 "+++ CtrlP +++
 let g:ctrlp_match_window_bottom = 0
@@ -134,11 +135,13 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 "+++ Go +++
 let $GO_ENV="test"
-autocmd FileType go map <leader>go :w<CR>:GoRun<enter>
-autocmd FileType go map <leader>r :w<CR>:!go test ./...<enter>
+autocmd FileType go map <leader>go :w<CR>:!go run %<enter>
+" autocmd FileType go map <leader>r :w<CR>:!go test ./...<enter>
+autocmd FileType go map <leader>r :w<CR>:!gode test ./...<enter>
 autocmd FileType go map <leader>rt :w<CR>:!./test.sh<enter>
 autocmd FileType go map <leader>b :w<CR>:!./bench.sh<enter>
-autocmd FileType go map <leader>l :w<CR>:GoLint<enter>
+" autocmd FileType go map <leader>l :w<CR>:GoLint<enter>
+autocmd FileType go map <leader>l :w<CR>:!gometalinter<enter>
 autocmd FileType go map <leader>v :w<CR>:GoVet<enter>
 autocmd FileType go map <leader>mt :TestFile<enter>
 autocmd FileType go map <leader>mm :TestLast<enter>
@@ -161,6 +164,8 @@ autocmd FileType ruby map <leader>a :vsp<cr>:!alt_file %<cr><cr>:A<cr>
 autocmd FileType ruby map <leader>rs :!bundle exec rspec %<enter>
 autocmd FileType ruby map <leader>rb :!ruby -Ilib -Itest -Ispec %<enter>
 autocmd FileType ruby map <leader>r :!bundle exec rake<enter>
+" autocmd FileType ruby map <leader>mt :TestFile<enter>
+" autocmd FileType ruby map <leader>mm :TestLast<enter>
 autocmd FileType ruby map <leader>mt :!mt %<enter>
 autocmd FileType ruby map <leader>mm :!mt --last<enter>
 autocmd FileType ruby map <leader>mtl :TestNearest<enter>
