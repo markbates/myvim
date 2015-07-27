@@ -34,6 +34,16 @@ set hlsearch
 set ignorecase
 set smartcase
 
+let i = 1
+while i <= 9
+    execute 'nnoremap <Leader>' . i . ' :' . i . 'wincmd w<CR>'
+    let i = i + 1
+endwhile
+function! WindowNumber()
+    let str=tabpagewinnr(tabpagenr())
+    return str
+endfunction
+set statusline=win:%{WindowNumber()}
 
 "+++ Lines & Columns +++
 set cursorline
@@ -51,6 +61,7 @@ execute pathogen#infect()
 "+++ Spelling +++
 set spelllang=en_us
 autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd BufRead,BufNewFile *.txt setlocal spell
 
 "+++ Keymaps +++
 map! jj <esc>
@@ -142,10 +153,25 @@ autocmd FileType go map <leader>rt :w<CR>:!./test.sh<enter>
 autocmd FileType go map <leader>b :w<CR>:!./bench.sh<enter>
 " autocmd FileType go map <leader>l :w<CR>:GoLint<enter>
 autocmd FileType go map <leader>l :w<CR>:!gometalinter<enter>
+autocmd FileType xml map <leader>l :w<CR>:silent %!xmllint --encode UTF-8 --format -<enter>
 autocmd FileType go map <leader>v :w<CR>:GoVet<enter>
 autocmd FileType go map <leader>mt :TestFile<enter>
 autocmd FileType go map <leader>mm :TestLast<enter>
 autocmd FileType go map <leader>mtl :TestNearest<enter>
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 let $GOPATH = "/Users/markbates/Dropbox/development/gocode"
 let g:go_bin_path = "/usr/local/bin"
@@ -182,3 +208,6 @@ autocmd FileType markdown map <leader>md :!mark %<enter><enter>
 
 "+++ Closetag +++
 autocmd FileType html,eruby,erb,tmpl let b:closetag_html_style=1
+
+"+++ Tagbar +++
+map <leader>t :TagbarToggle<cr>

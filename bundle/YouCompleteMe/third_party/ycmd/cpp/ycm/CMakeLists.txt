@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with YouCompleteMe.  If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required( VERSION 2.8 )
+cmake_minimum_required( VERSION 2.8.7 )
 
 project( ycm_support_libs )
 set( CLIENT_LIB "ycm_client_support" )
@@ -23,6 +23,9 @@ set( SERVER_LIB "ycm_core" )
 
 set( Python_ADDITIONAL_VERSIONS 2.7 2.6 )
 find_package( PythonLibs 2.6 REQUIRED )
+# The version of PythonInterp controls the version of boost.python which
+# is pulled in later, otherwise the highest python version is used
+find_package( PythonInterp 2.6 REQUIRED )
 
 if ( NOT PYTHONLIBS_VERSION_STRING VERSION_LESS "3.0.0" )
   message( FATAL_ERROR
@@ -40,33 +43,60 @@ if ( USE_CLANG_COMPLETER AND
      NOT USE_SYSTEM_LIBCLANG AND
      NOT PATH_TO_LLVM_ROOT AND
      NOT EXTERNAL_LIBCLANG_PATH )
-  message( "Downloading Clang 3.5" )
-
-  set( CLANG_URL "http://llvm.org/releases/3.5.0" )
 
   if ( APPLE )
-    set( CLANG_DIRNAME "clang+llvm-3.5.0-macosx-apple-darwin" )
-    set( CLANG_MD5 "e580c8b8c64ca5442ac15a4343447500" )
+    set( CLANG_DIRNAME "clang+llvm-3.6.1-x86_64-apple-darwin" )
+    set( CLANG_SHA256
+         "b438a5e0aad3d9af0f21dc2c9a58f7dbc845740acea17c8fa69aa15e98457f74" )
     set( CLANG_FILENAME "${CLANG_DIRNAME}.tar.xz" )
   else()
     if ( 64_BIT_PLATFORM )
-      set( CLANG_DIRNAME "clang+llvm-3.5.0-x86_64-linux-gnu-ubuntu-14.04" )
-      set( CLANG_MD5 "904e96e6f51e57b58de546a7324910c3" )
+      # We MUST support the latest Ubuntu LTS release!
+      # At the time of writing, that's 14.04. Switch to next LTS ~6 months after
+      # it comes out.
+      set( CLANG_DIRNAME "clang+llvm-3.6.1-x86_64-linux-gnu-ubuntu-14.04" )
+      set( CLANG_SHA256
+           "469aee8769eb214bafb6e239e7b6bd99d53542d4d386c1ed4e3e6845c0cb85d5" )
       set( CLANG_FILENAME "${CLANG_DIRNAME}.tar.xz" )
     else()
       # Clang 3.3 is the last version with pre-built x86 binaries upstream.
       # That's too old now.
-      message( FATAL_ERROR "No pre-built Clang 3.5 binaries for 32 bit linux. "
-        "You'll have to compile Clang 3.5 from source. "
+      message( FATAL_ERROR "No pre-built Clang 3.6 binaries for 32 bit linux. "
+        "You'll have to compile Clang 3.6 from source. "
         "See the YCM docs for details on how to use a user-compiled libclang." )
     endif()
   endif()
 
-  file(
-    DOWNLOAD "${CLANG_URL}/${CLANG_FILENAME}" "./${CLANG_FILENAME}"
-    SHOW_PROGRESS EXPECTED_MD5 "${CLANG_MD5}"
-  )
+  # Check if the Clang archive is already downloaded and its checksum is correct.
+  # If this is not the case, remove it if needed and download it.
+  set( CLANG_DOWNLOAD ON )
+  set( CLANG_LOCAL_FILE
+       "${CMAKE_SOURCE_DIR}/../clang_archives/${CLANG_FILENAME}" )
 
+  if( EXISTS "${CLANG_LOCAL_FILE}" )
+    file( SHA256 "${CLANG_LOCAL_FILE}" CLANG_LOCAL_SHA256 )
+
+    if( "${CLANG_LOCAL_SHA256}" STREQUAL "${CLANG_SHA256}" )
+      set( CLANG_DOWNLOAD OFF )
+    else()
+      file( REMOVE "${CLANG_LOCAL_FILE}" )
+    endif()
+  endif()
+
+  if( CLANG_DOWNLOAD )
+    message( "Downloading Clang 3.6" )
+
+    set( CLANG_URL "http://llvm.org/releases/3.6.1" )
+    file(
+      DOWNLOAD "${CLANG_URL}/${CLANG_FILENAME}" "${CLANG_LOCAL_FILE}"
+      SHOW_PROGRESS EXPECTED_HASH SHA256=${CLANG_SHA256}
+    )
+  else()
+    message( "Using Clang archive: ${CLANG_LOCAL_FILE}" )
+  endif()
+
+  # Copy and extract the Clang archive in the building directory.
+  file( COPY "${CLANG_LOCAL_FILE}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/../" )
   if ( CLANG_FILENAME MATCHES ".+bz2" )
     execute_process( COMMAND tar -xjf ${CLANG_FILENAME} )
   elseif( CLANG_FILENAME MATCHES ".+xz" )
@@ -236,8 +266,8 @@ if ( EXTRA_RPATH )
   set( CMAKE_INSTALL_RPATH "${EXTRA_RPATH}:${CMAKE_INSTALL_RPATH}" )
 endif()
 
-# Needed on Linux machines, but not on Macs
-if ( UNIX AND NOT APPLE )
+# Needed on Linux machines, but not on Macs and OpenBSD
+if ( UNIX AND NOT ( APPLE OR SYSTEM_IS_OPENBSD ) )
   set( EXTRA_LIBS rt )
 endif()
 
@@ -277,17 +307,19 @@ target_link_libraries( ${SERVER_LIB}
                      )
 
 if( LIBCLANG_TARGET )
-  if( NOT WIN32 )
+  # When building with MSVC, we need to copy libclang.dll instead of libclang.lib
+  if( MSVC )
     add_custom_command(
       TARGET ${SERVER_LIB}
       POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy "${LIBCLANG_TARGET}" "$<TARGET_FILE_DIR:${SERVER_LIB}>"
+      COMMAND ${CMAKE_COMMAND} -E copy "${PATH_TO_LLVM_ROOT}/bin/libclang.dll" "$<TARGET_FILE_DIR:${SERVER_LIB}>"
     )
   else()
     add_custom_command(
       TARGET ${SERVER_LIB}
       POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy "${PATH_TO_LLVM_ROOT}/bin/libclang.dll" "$<TARGET_FILE_DIR:${SERVER_LIB}>")
+      COMMAND ${CMAKE_COMMAND} -E copy "${LIBCLANG_TARGET}" "$<TARGET_FILE_DIR:${SERVER_LIB}>"
+    )
   endif()
 endif()
 
@@ -305,10 +337,18 @@ add_custom_target( ${PROJECT_NAME}
 # @rpath/libclang.dylib in the final ycm_core.so. If we use the
 # @rpath version, then it may load the system libclang which the user
 # explicitely does not want (otherwise the user would specify
-# USE_SYSTEM_LIBCLANG). With @loader_path, we make sure that only the
-# libclang.dylib present in the same directory as our ycm_core.so
-# is used.
+# USE_SYSTEM_LIBCLANG). If we hardcode with `@loader_path/libclang.dylib`,
+# it guarantees to search `@loader_path` for libclang.dylib first and use it
+# only. So with `@loader_path`, we make sure that only the libclang.dylib
+# present in the same directory as our ycm_core.so is used.
+# And the extra `rpath` is helpful to find libclang.dylib's dependencies
+# if it is built with `--enable-shared` flag.
 if ( EXTERNAL_LIBCLANG_PATH AND APPLE )
+  get_filename_component(EXTRA_LIB_PATH ${EXTERNAL_LIBCLANG_PATH} DIRECTORY)
+
+  set_target_properties(${SERVER_LIB}
+    PROPERTIES LINK_FLAGS "-Wl,-rpath,${EXTRA_LIB_PATH}")
+
   add_custom_command( TARGET ${SERVER_LIB}
                       POST_BUILD
                       COMMAND install_name_tool
@@ -391,6 +431,10 @@ endif()
 if( SYSTEM_IS_SUNOS )
   # SunOS needs this setting for thread support
   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthreads" )
+endif()
+
+if( SYSTEM_IS_OPENBSD OR SYSTEM_IS_FREEBSD )
+  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread" )
 endif()
 
 add_subdirectory( tests )

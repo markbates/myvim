@@ -97,7 +97,10 @@ BOOST_PYTHON_MODULE(ycm_core)
     .def( "UpdatingTranslationUnit", &ClangCompleter::UpdatingTranslationUnit )
     .def( "UpdateTranslationUnit", &ClangCompleter::UpdateTranslationUnit )
     .def( "CandidatesForLocationInFile",
-          &ClangCompleter::CandidatesForLocationInFile );
+          &ClangCompleter::CandidatesForLocationInFile )
+    .def( "GetTypeAtLocation", &ClangCompleter::GetTypeAtLocation )
+    .def( "GetEnclosingFunctionAtLocation",
+          &ClangCompleter::GetEnclosingFunctionAtLocation );
 
   enum_< CompletionKind >( "CompletionKind" )
     .value( "STRUCT", STRUCT )
@@ -119,6 +122,7 @@ BOOST_PYTHON_MODULE(ycm_core)
     .def( "ExtraMenuInfo", &CompletionData::ExtraMenuInfo )
     .def( "DetailedInfoForPreviewWindow",
           &CompletionData::DetailedInfoForPreviewWindow )
+    .def( "DocString", &CompletionData::DocString )
     .def_readonly( "kind_", &CompletionData::kind_ );
 
   class_< std::vector< CompletionData >,

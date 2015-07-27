@@ -30,9 +30,9 @@ from ycmd.request_wrap import RequestWrap
 from ycm.diagnostic_interface import DiagnosticInterface
 from ycm.omni_completer import OmniCompleter
 from ycm import syntax_parse
-from ycmd.completers.completer_utils import FiletypeCompleterExistsForFiletype
 from ycm.client.ycmd_keepalive import YcmdKeepalive
 from ycm.client.base_request import BaseRequest, BuildRequestData
+from ycm.client.completer_available_request import SendCompleterAvailableRequest
 from ycm.client.command_request import SendCommandRequest
 from ycm.client.completion_request import CompletionRequest
 from ycm.client.omni_completion_request import OmniCompletionRequest
@@ -98,6 +98,7 @@ class YouCompleteMe( object ):
     self._ycmd_keepalive.Start()
 
   def _SetupServer( self ):
+    self._available_completers = {}
     server_port = utils.GetUnusedLocalhostPort()
     # The temp options file is deleted by ycmd during startup
     with tempfile.NamedTemporaryFile( delete = False ) as options_file:
@@ -129,7 +130,8 @@ class YouCompleteMe( object ):
         if self._user_options[ 'server_keep_logfiles' ]:
           args.append('--keep_logfiles')
 
-      self._server_popen = utils.SafePopen( args, stdout = PIPE, stderr = PIPE)
+      self._server_popen = utils.SafePopen( args, stdin_windows = PIPE,
+                                            stdout = PIPE, stderr = PIPE)
       BaseRequest.server_location = 'http://127.0.0.1:' + str( server_port )
       BaseRequest.hmac_secret = hmac_secret
 
@@ -217,8 +219,20 @@ class YouCompleteMe( object ):
     return self._omnicomp
 
 
+  def FiletypeCompleterExistsForFiletype( self, filetype ):
+    try:
+      return self._available_completers[ filetype ]
+    except KeyError:
+      pass
+
+    exists_completer = ( self.IsServerAlive() and
+                         bool( SendCompleterAvailableRequest( filetype ) ) )
+    self._available_completers[ filetype ] = exists_completer
+    return exists_completer
+
+
   def NativeFiletypeCompletionAvailable( self ):
-    return any( [ FiletypeCompleterExistsForFiletype( x ) for x in
+    return any( [ self.FiletypeCompleterExistsForFiletype( x ) for x in
                   vimsupport.CurrentFiletypes() ] )
 
 
@@ -299,10 +313,10 @@ class YouCompleteMe( object ):
 
 
   def UpdateDiagnosticInterface( self ):
-    if not self.DiagnosticsForCurrentFileReady():
-      return
-    self._diag_interface.UpdateWithNewDiagnostics(
-      self.GetDiagnosticsFromStoredRequest() )
+    if ( self.DiagnosticsForCurrentFileReady() and
+         self.NativeFiletypeCompletionUsable() ):
+      self._diag_interface.UpdateWithNewDiagnostics(
+        self.GetDiagnosticsFromStoredRequest() )
 
 
   def ShowDetailedDiagnostic( self ):
@@ -341,7 +355,7 @@ class YouCompleteMe( object ):
     if '*' in filetype_to_disable:
       return False
     else:
-      return not all([ x in filetype_to_disable for x in filetypes ])
+      return not any([ x in filetype_to_disable for x in filetypes ])
 
 
   def _AddSyntaxDataIfNeeded( self, extra_data ):

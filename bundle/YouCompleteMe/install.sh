@@ -4,7 +4,7 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-build_file=$SCRIPT_DIR/third_party/ycmd/build.sh
+build_file=$SCRIPT_DIR/third_party/ycmd/build.py
 
 if [[ ! -f "$build_file" ]]; then
   echo "File $build_file doesn't exist; you probably forgot to run:"
@@ -12,7 +12,16 @@ if [[ ! -f "$build_file" ]]; then
   exit 1
 fi
 
-"$build_file" "$@"
+command_exists() {
+  command -v "$1" >/dev/null 2>&1 ;
+}
+
+PYTHON_BINARY=python
+if command_exists python2; then
+  PYTHON_BINARY=python2
+fi
+
+$PYTHON_BINARY "$build_file" "$@"
 
 # Remove old YCM libs if present so that YCM can start.
 rm -f python/*ycm_core.* &> /dev/null

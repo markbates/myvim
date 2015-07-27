@@ -6,8 +6,7 @@ Quickstart
 .. module:: requests.models
 
 Eager to get started? This page gives a good introduction in how to get started
-with Requests. This assumes you already have Requests installed. If you do not,
-head over to the :ref:`Installation <install>` section.
+with Requests.
 
 First, make sure that:
 
@@ -30,10 +29,10 @@ Begin by importing the Requests module::
 Now, let's try to get a webpage. For this example, let's get GitHub's public
 timeline ::
 
-    >>> r = requests.get('https://github.com/timeline.json')
+    >>> r = requests.get('https://api.github.com/events')
 
-Now, we have a :class:`Response` object called ``r``. We can get all the
-information we need from this object.
+Now, we have a :class:`Response <requests.Response>` object called ``r``. We can
+get all the information we need from this object.
 
 Requests' simple API means that all forms of HTTP request are as obvious. For
 example, this is how you make an HTTP POST request::
@@ -74,6 +73,13 @@ You can see that the URL has been correctly encoded by printing the URL::
 Note that any dictionary key whose value is ``None`` will not be added to the
 URL's query string.
 
+In order to pass a list of items as a value you must mark the key as
+referring to a list like string by appending ``[]`` to the key::
+
+    >>> payload = {'key1': 'value1', 'key2[]': ['value2', 'value3']}
+    >>> r = requests.get("http://httpbin.org/get", params=payload)
+    >>> print(r.url)
+    http://httpbin.org/get?key1=value1&key2%5B%5D=value2&key2%5B%5D=value3
 
 Response Content
 ----------------
@@ -82,7 +88,7 @@ We can read the content of the server's response. Consider the GitHub timeline
 again::
 
     >>> import requests
-    >>> r = requests.get('https://github.com/timeline.json')
+    >>> r = requests.get('https://api.github.com/events')
     >>> r.text
     u'[{"repository":{"open_issues":0,"url":"https://github.com/...
 
@@ -135,7 +141,7 @@ JSON Response Content
 There's also a builtin JSON decoder, in case you're dealing with JSON data::
 
     >>> import requests
-    >>> r = requests.get('https://github.com/timeline.json')
+    >>> r = requests.get('https://api.github.com/events')
     >>> r.json()
     [{u'repository': {u'open_issues': 0, u'url': 'https://github.com/...
 
@@ -151,7 +157,7 @@ In the rare case that you'd like to get the raw socket response from the
 server, you can access ``r.raw``. If you want to do this, make sure you set
 ``stream=True`` in your initial request. Once you do, you can do this::
 
-    >>> r = requests.get('https://github.com/timeline.json', stream=True)
+    >>> r = requests.get('https://api.github.com/events', stream=True)
     >>> r.raw
     <requests.packages.urllib3.response.HTTPResponse object at 0x101194810>
     >>> r.raw.read(10)
@@ -195,7 +201,7 @@ dictionary of data will automatically be form-encoded when the request is made::
 
     >>> payload = {'key1': 'value1', 'key2': 'value2'}
     >>> r = requests.post("http://httpbin.org/post", data=payload)
-    >>> print r.text
+    >>> print(r.text)
     {
       ...
       "form": {
@@ -205,7 +211,8 @@ dictionary of data will automatically be form-encoded when the request is made::
       ...
     }
 
-There are many times that you want to send data that is not form-encoded. If you pass in a ``string`` instead of a ``dict``, that data will be posted directly.
+There are many times that you want to send data that is not form-encoded. If
+you pass in a ``string`` instead of a ``dict``, that data will be posted directly.
 
 For example, the GitHub API v3 accepts JSON-Encoded POST/PATCH data::
 
@@ -234,10 +241,10 @@ Requests makes it simple to upload Multipart-encoded files::
       ...
     }
 
-You can set the filename explicitly::
+You can set the filename, content_type and headers explicitly:
 
     >>> url = 'http://httpbin.org/post'
-    >>> files = {'file': ('report.xls', open('report.xls', 'rb'))}
+    >>> files = {'file': ('report.xls', open('report.xls', 'rb'), 'application/vnd.ms-excel', {'Expires': '0'})}
 
     >>> r = requests.post(url, files=files)
     >>> r.text
@@ -264,6 +271,15 @@ If you want, you can send strings to be received as files::
       ...
     }
 
+In the event you are posting a very large file as a ``multipart/form-data``
+request, you may want to stream the request. By default, ``requests`` does not
+support this, but there is a separate package which does -
+``requests-toolbelt``. You should read `the toolbelt's documentation
+<https://toolbelt.readthedocs.org>`_ for more details about how to use it.
+
+For sending multiple files in one request refer to the :ref:`advanced <advanced>`
+section.
+
 
 Response Status Codes
 ---------------------
@@ -280,8 +296,9 @@ reference::
     >>> r.status_code == requests.codes.ok
     True
 
-If we made a bad request (a 4XX client error or 5XX server error response), we can raise it with
-:class:`Response.raise_for_status()`::
+If we made a bad request (a 4XX client error or 5XX server error response), we
+can raise it with
+:meth:`Response.raise_for_status() <requests.Response.raise_for_status>`::
 
     >>> bad_r = requests.get('http://httpbin.org/status/404')
     >>> bad_r.status_code
@@ -319,8 +336,8 @@ We can view the server's response headers using a Python dictionary::
     }
 
 The dictionary is special, though: it's made just for HTTP headers. According to
-`RFC 2616 <http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html>`_, HTTP
-Headers are case-insensitive.
+`RFC 7230 <http://tools.ietf.org/html/rfc7230#section-3.2>`_, HTTP Header names
+are case-insensitive.
 
 So, we can access the headers using any capitalization we want::
 
@@ -330,11 +347,20 @@ So, we can access the headers using any capitalization we want::
     >>> r.headers.get('content-type')
     'application/json'
 
+It is also special in that the server could have sent the same header multiple
+times with different values, but requests combines them so they can be
+represented in the dictionary within a single mapping, as per
+`RFC 7230 <http://tools.ietf.org/html/rfc7230#section-3.2>`_:
+
+    > A recipient MAY combine multiple header fields with the same field name
+    > into one "field-name: field-value" pair, without changing the semantics
+    > of the message, by appending each subsequent field value to the combined
+    > field value in order, separated by a comma.
 
 Cookies
 -------
 
-If a response contains some Cookies, you can get quick access to them::
+If a response contains some Cookies, you can quickly access them::
 
     >>> url = 'http://example.com/some/cookie/setting/url'
     >>> r = requests.get(url)
@@ -356,11 +382,17 @@ parameter::
 Redirection and History
 -----------------------
 
-Requests will automatically perform location redirection for all verbs except
+By default Requests will perform location redirection for all verbs except
 HEAD.
 
-GitHub redirects all HTTP requests to HTTPS. We can use the ``history`` method
-of the Response object to track redirection. Let's see what GitHub does::
+We can use the ``history`` property of the Response object to track redirection.
+
+The :meth:`Response.history <requests.Response.history>` list contains the
+:class:`Response <requests.Response>` objects that were created in order to
+complete the request. The list is sorted from the oldest to the most recent
+response.
+
+For example, GitHub redirects all HTTP requests to HTTPS::
 
     >>> r = requests.get('http://github.com')
     >>> r.url
@@ -370,9 +402,6 @@ of the Response object to track redirection. Let's see what GitHub does::
     >>> r.history
     [<Response [301]>]
 
-The :class:`Response.history` list contains the :class:`Request` objects that
-were created in order to complete the request. The list is sorted from the
-oldest to the most recent request.
 
 If you're using GET, OPTIONS, POST, PUT, PATCH or DELETE, you can disable
 redirection handling with the ``allow_redirects`` parameter::
@@ -385,7 +414,7 @@ redirection handling with the ``allow_redirects`` parameter::
 
 If you're using HEAD, you can enable redirection as well::
 
-    >>> r = requests.post('http://github.com', allow_redirects=True)
+    >>> r = requests.head('http://github.com', allow_redirects=True)
     >>> r.url
     'https://github.com/'
     >>> r.history
@@ -418,7 +447,7 @@ Errors and Exceptions
 In the event of a network problem (e.g. DNS failure, refused connection, etc),
 Requests will raise a :class:`~requests.exceptions.ConnectionError` exception.
 
-In the event of the rare invalid HTTP response, Requests will raise an
+In the rare event of an invalid HTTP response, Requests will raise an
 :class:`~requests.exceptions.HTTPError` exception.
 
 If a request times out, a :class:`~requests.exceptions.Timeout` exception is

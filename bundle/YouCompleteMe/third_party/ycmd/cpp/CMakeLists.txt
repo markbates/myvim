@@ -15,7 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with YouCompleteMe.  If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required( VERSION 2.8 )
+if ( DEFINED ENV{TRAVIS} )
+  # We lie to Travis CI about the min CMake version we need. For what we use
+  # Travis for, the old version of CMake that it has is good enough.
+  cmake_minimum_required( VERSION 2.8 )
+else()
+  if ( APPLE )
+    # OSX requires CMake >= 2.8.12, see YCM issue #1439
+    cmake_minimum_required( VERSION 2.8.12 )
+  else()
+    # CMake 2.8.11 is the latest available version on RHEL/CentOS 7
+    cmake_minimum_required( VERSION 2.8.11 )
+  endif()
+endif()
+
 
 # Disable CMake legacy mode for Cygwin, since the build doesn't depend on
 # WIN32 being set for Cygwin, and this property being unset causes a
@@ -33,6 +46,10 @@ endif()
 
 if ( ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD" )
   set( SYSTEM_IS_FREEBSD true )
+endif()
+
+if ( ${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD" )
+  set( SYSTEM_IS_OPENBSD true )
 endif()
 
 if ( ${CMAKE_SYSTEM_NAME} MATCHES "SunOS" )

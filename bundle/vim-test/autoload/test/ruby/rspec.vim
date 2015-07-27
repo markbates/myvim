@@ -20,10 +20,10 @@ function! test#ruby#rspec#executable() abort
   if !empty(glob('.zeus.sock'))
     return 'zeus rspec'
   elseif filereadable('./bin/rspec')
-    return './bin/rspec'
+    return './bin/rspec --no-color'
   elseif filereadable('Gemfile')
-    return 'bundle exec rspec'
+    return 'bundle exec rspec --no-color'
   else
-    return 'rspec'
+    return 'rspec --no-color'
   endif
 endfunction

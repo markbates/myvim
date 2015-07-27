@@ -130,12 +130,17 @@ TRIGGER_REGEX_PREFIX = 're!'
 
 DEFAULT_FILETYPE_TRIGGERS = {
   'c' : ['->', '.'],
-  'objc' : ['->', '.', r're!\[[_a-zA-Z]+\w*\s'],
+  'objc' : ['->',
+            '.',
+            r're!\[[_a-zA-Z]+\w*\s',    # bracketed calls
+            r're!^\s*[^\W\d]\w*\s',     # bracketless calls
+            r're!\[.*\]\s',             # method composition
+           ],
   'ocaml' : ['.', '#'],
   'cpp,objcpp' : ['->', '.', '::'],
   'perl' : ['->'],
   'php' : ['->', '::'],
-  'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
   'ruby' : ['.', '::'],
   'lua' : ['.', ':'],
   'erlang' : [':'],
