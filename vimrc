@@ -19,7 +19,8 @@ let $PATH = "/usr/local/bin".$PATH
 
 "+++ Display Settings +++
 set t_Co=256
-set guifont=Monaco:h18
+" set guifont=Monaco:h18
+set guifont=Hack:h18
 colorscheme molokai
 set listchars=tab:\.\ ,trail:·
 set list
@@ -118,7 +119,8 @@ let g:ctrlp_buftag_types = {
 \ 'rc'         : '--language-force=rust --rust-types=fTm'
 \ }
 let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_by_filename = 1
+" let g:ctrlp_by_filename = 1
+let g:ctrlp_by_filename = 0
 let g:ctrlp_match_window = 'top,order:ttb'
 let g:ctrlp_switch_buffer = 'et'
 let g:ctrlp_working_path_mode = 0
@@ -176,7 +178,7 @@ let g:go_highlight_build_constraints = 1
 let $GOPATH = "/Users/markbates/Dropbox/development/gocode"
 let g:go_bin_path = "/usr/local/bin"
 let g:go_fmt_command = "goimports"
-autocmd BufWritePost *.go silent :GoImports
+" autocmd BufWritePost *.go silent :GoImports
 
 "+++ git +++
 map <leader>gst :!git status<enter>
@@ -201,6 +203,14 @@ autocmd FileType ruby map <leader>mtl :TestNearest<enter>
 autocmd FileType js map <leader>js :!node %<enter>
 autocmd FileType coffee map <leader>cs :!coffee %<enter>
 autocmd BufRead,BufNewFile *.es6 setfiletype javascript
+au BufWrite *.js :Autoformat
+
+"+++ CSS/SCSS +++
+au BufWrite *.css :Autoformat
+au BufWrite *.scss :Autoformat
+
+"+++ HTML +++
+" au BufWrite *.html :Autoformat
 
 "+++ Markdown +++
 let g:markdown_fenced_languages=['ruby', 'erb=eruby', 'javascript', 'html', 'sh', 'coffeescript', 'go']
@@ -211,3 +221,32 @@ autocmd FileType html,eruby,erb,tmpl let b:closetag_html_style=1
 
 "+++ Tagbar +++
 map <leader>t :TagbarToggle<cr>
+
+"+++ Tmux +++
+" for tmux to automatically set paste and nopaste mode at the time pasting (as
+" happens in VIM UI)
+" function! WrapForTmux(s)
+"   if !exists('$TMUX')
+"     return a:s
+"   endif
+"
+"   let tmux_start = "\<Esc>Ptmux;"
+"   let tmux_end = "\<Esc>\\"
+"
+"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+" endfunction
+"
+" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+"
+" function! XTermPasteBegin()
+"   set pastetoggle=<Esc>[201~
+"   set paste
+"   return ""
+" endfunction
+"
+" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+"
+" if exists('$TMUX')
+"   " set term=screen-256color
+" endif

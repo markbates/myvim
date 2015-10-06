@@ -2,8 +2,27 @@ snippet log "Description" !b
 fmt.Printf("$1: %s\n", $1)
 endsnippet
 
-snippet hfunc "Description"
+snippet hfunc "Description" i
 func(res http.ResponseWriter, req *http.Request) {
 
+}
+endsnippet
+
+snippet timestamps "Descriptions" !b
+CreatedAt time.Time \`json:"created_at" db:"created_at"\`
+UpdatedAt time.Time \`json:"updated_at" db:"updated_at"\`
+endsnippet
+
+snippet model "Description" !b
+type $1 struct {
+	ID        int       \`json:"id" db:"id"\`
+	CreatedAt time.Time \`json:"created_at" db:"created_at"\`
+	UpdatedAt time.Time \`json:"updated_at" db:"updated_at"\`
+}
+endsnippet
+
+snippet test "" !b
+func Test_$1 (t *testing.T) {
+  r := require.New(t)
 }
 endsnippet

@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.CSharp.Resolver;
 using ICSharpCode.NRefactory.Semantics;
 using ICSharpCode.NRefactory.TypeSystem;
 using OmniSharp.Common;
+using OmniSharp.Configuration;
 using Error = OmniSharp.Common.Error;
 using OmniSharp.Solution;
 
@@ -15,10 +17,12 @@ namespace OmniSharp.SemanticErrors
     public class SemanticErrorsHandler
     {
         private readonly ISolution _solution;
+        private readonly IEnumerable<string> _ignoredCodeIssues;
 
         public SemanticErrorsHandler(ISolution solution)
         {
             _solution = solution;
+            _ignoredCodeIssues = ConfigurationLoader.Config.IgnoredCodeIssues;
         }
 
         public SemanticErrorsResponse FindSemanticErrors(Request request)
@@ -27,31 +31,48 @@ namespace OmniSharp.SemanticErrors
             var project = _solution.ProjectContainingFile(request.FileName);
             project.UpdateFile(request.FileName, request.Buffer);
             var solutionSnapshot = new DefaultSolutionSnapshot(_solution.Projects.Select(i => i.ProjectContent));
-            var syntaxTree = new CSharpParser().Parse(request.Buffer, request.FileName);
+            SyntaxTree syntaxTree;
+            if(project.CompilerSettings!=null){
+            	syntaxTree = new CSharpParser(project.CompilerSettings).Parse(request.Buffer, request.FileName);
+            }else{
+            	syntaxTree = new CSharpParser().Parse(request.Buffer, request.FileName);
+            }
             var resolver = new CSharpAstResolver(solutionSnapshot.GetCompilation(project.ProjectContent), syntaxTree);
             var navigator = new SemanticErrorsNavigator();
             resolver.ApplyNavigator(navigator);
-            var errors = navigator.GetErrors().Select(i => new Error
+            var errors = navigator.GetErrors()
+                .Where(e => ShouldIncludeIssue(e.Message))
+                .Select(i => new Error
             {
                 FileName = clientFilename,
                 Message = i.Message,
-                Line = i.TextLocation.Line,
-                Column = i.TextLocation.Column,
+                Line = i.StartLocation.Line,
+                Column = i.EndLocation.Column,
+                EndLine = i.EndLocation.Line,
+                EndColumn = i.EndLocation.Column
             });
+
             return new SemanticErrorsResponse
             {
                 Errors = errors,
             };
         }
 
+        private bool ShouldIncludeIssue(string issue)
+        {
+            return !_ignoredCodeIssues.Any(ignore => Regex.IsMatch(issue, ignore));
+        }
+
         struct ResolveErrors
         {
-            public readonly TextLocation TextLocation;
+            public readonly TextLocation StartLocation;
+            public readonly TextLocation EndLocation;
             public readonly String Message;
 
-            public ResolveErrors(TextLocation textLocation, String message)
+            public ResolveErrors(TextLocation startLocation, TextLocation endLocation, String message)
             {
-                this.TextLocation = textLocation;
+                this.StartLocation = startLocation;
+                this.EndLocation = endLocation;
                 this.Message = message;
             }
         }
@@ -81,7 +102,7 @@ namespace OmniSharp.SemanticErrors
                 {
                     foreach(var error in GetErrorStrings(resolveResult))
                     {
-                        _errors.Add(new ResolveErrors(node.StartLocation, error));
+                        _errors.Add(new ResolveErrors(node.StartLocation, node.EndLocation, error));
                     }
                 }
             }
@@ -91,7 +112,7 @@ namespace OmniSharp.SemanticErrors
                 if (!conversion.IsValid)
                 {
                     var error = String.Format("Cannot convert from {0} to {1}", resolveResult.Type, type);
-                    _errors.Add(new ResolveErrors(expression.StartLocation, error));
+                    _errors.Add(new ResolveErrors(expression.StartLocation, expression.EndLocation, error));
                 }
             }
 
