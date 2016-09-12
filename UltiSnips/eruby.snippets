@@ -2,6 +2,10 @@ snippet erb "Description" i
 <%= $1 %>
 endsnippet
 
+snippet erbs "Description" i
+<% $1 %>
+endsnippet
+
 snippet if "Description"
 <% if $1 %>
 endsnippet
@@ -14,3 +18,8 @@ snippet end "Description"
 <% end %>
 endsnippet
 
+snippet each ""
+<% $1.each do |$2| %>
+	$3
+<% end %>
+endsnippet

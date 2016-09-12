@@ -1,8 +1,43 @@
 snippet ins "Description" !b
-puts "${1}: #{${2:$1}.inspect}"
+puts %{=== ${1} -> #{${2:$1}.inspect}}
 endsnippet
 
 snippet let "Description" !b
 let(:${1}) { create_$1 }
 endsnippet
 
+snippet factory "Description" !b
+def build_$1(options = {})
+  $2.new({
+	$3
+  }.merge(options))
+end
+
+def create_$1(options = {})
+  x = build_$1(options)
+  x.save!
+  return x
+end
+endsnippet
+
+snippet desc "" !b
+describe "$1" do
+
+	it "$2" do
+		$3
+	end
+
+end
+endsnippet
+
+snippet it "" !b
+it "$1" do
+	$2
+end
+endsnippet
+
+snippet each "" !b
+$1.each do |$2|
+	$3
+end
+endsnippet

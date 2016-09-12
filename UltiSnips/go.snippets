@@ -1,5 +1,9 @@
 snippet log "Description" !b
-fmt.Printf("$1: %s\n", $1)
+fmt.Printf("### $1 -> %+v\n", $1)
+endsnippet
+
+snippet ins "Description" !b
+fmt.Printf("### $1 -> %+v\n", $1)
 endsnippet
 
 snippet hfunc "Description" i
@@ -15,7 +19,7 @@ endsnippet
 
 snippet model "Description" !b
 type $1 struct {
-	ID        int       \`json:"id" db:"id"\`
+	ID        int       "json:"id" db:"id""
 	CreatedAt time.Time \`json:"created_at" db:"created_at"\`
 	UpdatedAt time.Time \`json:"updated_at" db:"updated_at"\`
 }
@@ -24,5 +28,31 @@ endsnippet
 snippet test "" !b
 func Test_$1 (t *testing.T) {
   r := require.New(t)
+}
+endsnippet
+
+snippet roll "" !b
+th.Rollback(func(tx *pop.Connection) {
+})
+endsnippet
+
+snippet efunc "" !b
+func $1(ctx *echo.Context) error {
+}
+endsnippet
+
+snippet err "" !b
+if err != nil {
+	return err
+}
+endsnippet
+
+snippet suite "" !b
+type $1Suite struct {
+	th.Suite
+}
+
+func Test$1Suite(t *testing.T) {
+	suite.Run(t, &$1Suite{})
 }
 endsnippet
