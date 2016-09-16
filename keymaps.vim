@@ -16,3 +16,9 @@ nnoremap j gj
 nnoremap k gk
 " highlight last inserted text
 nnoremap gV `[v`]
+
+if exists('$TMUX')
+  autocmd filetype * map <leader>r :w<cr>:VimuxRunCommand("clear; tt")<enter>
+else
+  autocmd filetype * map <leader>r :w<cr>:!tt<enter>
+endif

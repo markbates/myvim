@@ -2,7 +2,6 @@
 let $GO_ENV="test"
 autocmd FileType go map <leader>a :AV<cr>
 autocmd FileType go map <leader>go :w<CR>:!go run %<enter>
-autocmd FileType go map <leader>r :w<CR>:!tt<enter>
 autocmd FileType go map <leader>mm :!tt rr<enter>
 autocmd FileType go map <leader>mt :TestFile<enter>
 autocmd FileType go map <leader>mtl :TestNearest<enter>

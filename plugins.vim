@@ -21,14 +21,24 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 
 Plug 'Chiel92/vim-autoformat'
+Plug 'millermedeiros/vim-esformatter'
+
+Plug 'pangloss/vim-javascript'
 Plug 'kchmck/vim-coffee-script'
+Plug 'mxw/vim-jsx'
+
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'benmills/vim-golang-alternate'
 Plug 'tpope/vim-rails'
+
 Plug 'vim-ruby/vim-ruby'
+Plug 'kana/vim-textobj-user'
+Plug 'https://github.com/whatyouhide/vim-textobj-erb'
+
 Plug 'tpope/vim-surround'
 Plug 'janko-m/vim-test'
 Plug 'Valloric/YouCompleteMe'
+Plug 'benmills/vimux'
 call plug#end()
