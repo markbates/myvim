@@ -2,6 +2,14 @@
 let $GO_ENV="test"
 autocmd FileType go map <leader>a :AV<cr>
 autocmd FileType go map <leader>go :w<CR>:!go run %<enter>
+
+" if exists('$TMUX')
+"   autocmd filetype go map <leader>go :w<cr>:VimuxRunCommand("clear; go run ". bufname("%"))<enter>
+" else
+"   autocmd FileType go map <leader>go :w<CR>:!go run %<enter>
+" endif
+autocmd FileType go map <leader>go :w<CR>:GoRun<enter>
+
 autocmd FileType go map <leader>mm :!tt rr<enter>
 autocmd FileType go map <leader>mt :TestFile<enter>
 autocmd FileType go map <leader>mtl :TestNearest<enter>
@@ -19,6 +27,9 @@ au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <Leader>s <Plug>(go-implements)
 au FileType go nmap <Leader>i <Plug>(go-info)
 au FileType go nmap <Leader>e <Plug>(go-rename)
+
+set updatetime=100
+let g:go_auto_type_info = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1

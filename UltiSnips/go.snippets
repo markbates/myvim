@@ -6,10 +6,30 @@ snippet ins "Description" !b
 fmt.Printf("### $1 -> %+v\n", $1)
 endsnippet
 
-snippet hfunc "Description" i
-func(res http.ResponseWriter, req *http.Request) {
-
+snippet init "Description" b
+func init() {
+	$1
 }
+endsnippet
+
+snippet hfunc "Description" i
+func $1(res http.ResponseWriter, req *http.Request) {
+	$2
+}
+endsnippet
+
+snippet errf "" i
+if err != nil {
+	log.Fatal(err)
+}
+endsnippet
+
+snippet logf "Description" i
+log.Fatal($1)
+endsnippet
+
+snippet las "Description" i
+http.ListenAndServe("${1::3000}", ${2:nil})
 endsnippet
 
 snippet timestamps "Descriptions" !b

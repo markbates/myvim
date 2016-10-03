@@ -11,6 +11,11 @@ vmap <D-[> <gv
 vmap <D-]> >gv
 nmap <C-h> gT
 nmap <C-l> gt
+
+" open files in a new tab
+nnoremap gf <C-W>gf
+vnoremap gf <C-W>gf
+
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
