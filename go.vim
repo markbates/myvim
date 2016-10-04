@@ -37,6 +37,6 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_alternate_mode = "vsplit"
 
-let $GOPATH = "/Users/markbates/Dropbox/development/gocode"
+let $GOPATH = $GOPATH
 let g:go_bin_path = "/usr/local/bin"
 let g:go_fmt_command = "goimports"
