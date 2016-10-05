@@ -4,5 +4,5 @@ autocmd FileType ruby map <leader>rs :!$GEM_HOME/bin/bundle exec rspec %<enter>
 autocmd FileType ruby map <leader>rb :!ruby -Ilib -Itest -Ispec %<enter>
 autocmd FileType ruby map <leader>mt :!tt ruby %<enter>
 autocmd FileType ruby map <leader>mm :!tt rr<enter>
-autocmd FileType ruby map <leader>mtl :TestNearest<enter>
+autocmd FileType ruby map <leader>mtl :!tt ruby %:<C-r>=line('.')<CR><CR>
 au BufWrite *.rb :Autoformat
