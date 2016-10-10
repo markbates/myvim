@@ -17,3 +17,4 @@ source $HOME/.config/nvim/markdown.vim
 source $HOME/.config/nvim/closetag.vim
 source $HOME/.config/nvim/tagbar.vim
 source $HOME/.config/nvim/tmux.vim
+source $HOME/.config/nvim/ycm.vim

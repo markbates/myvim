@@ -41,4 +41,5 @@ Plug 'tpope/vim-surround'
 Plug 'janko-m/vim-test'
 Plug 'Valloric/YouCompleteMe'
 Plug 'benmills/vimux'
+
 call plug#end()

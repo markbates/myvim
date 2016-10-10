@@ -28,3 +28,4 @@ function! WindowNumber()
     return str
 endfunction
 set statusline=win:%{WindowNumber()}
+

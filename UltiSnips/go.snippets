@@ -2,6 +2,14 @@ snippet log "Description" !b
 fmt.Printf("### $1 -> %+v\n", $1)
 endsnippet
 
+snippet main "" i
+package main
+
+func main() {
+	$1
+}
+endsnippet
+
 snippet ins "Description" !b
 fmt.Printf("### $1 -> %+v\n", $1)
 endsnippet
@@ -46,8 +54,8 @@ type $1 struct {
 endsnippet
 
 snippet test "" !b
-func Test_$1 (t *testing.T) {
-  r := require.New(t)
+func Test_$1(t *testing.T) {
+  ${2:r := require.New(t)}
 }
 endsnippet
 
