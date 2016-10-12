@@ -32,6 +32,18 @@ if err != nil {
 }
 endsnippet
 
+snippet errt "" i
+if err != nil {
+	t.Fatal(err)
+}
+endsnippet
+
+snippet errtf "" i
+if err != nil {
+	t.Fatalf("$1", $2)
+}
+endsnippet
+
 snippet logf "Description" i
 log.Fatal($1)
 endsnippet

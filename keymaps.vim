@@ -17,8 +17,8 @@ nnoremap gf <C-W>gf
 vnoremap gf <C-W>gf
 
 " move vertically by visual line
-nnoremap j gj
-nnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
 " highlight last inserted text
 nnoremap gV `[v`]
 
