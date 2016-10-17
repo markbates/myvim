@@ -31,9 +31,11 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'benmills/vim-golang-alternate'
-Plug 'tpope/vim-rails'
 
+Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
+Plug 'ngmy/vim-rubocop'
+
 Plug 'kana/vim-textobj-user'
 Plug 'https://github.com/whatyouhide/vim-textobj-erb'
 

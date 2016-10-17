@@ -15,7 +15,8 @@ set autoread
 set laststatus=2
 set backspace=indent,eol,start
 set clipboard=unnamed
-let $PATH = "/usr/local/bin".$PATH
+" let $PATH = "/usr/local/bin:".$PATH
+let $PATH = $PATH
 :nnoremap <silent><expr> <Leader>h (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
 
 let i = 1
