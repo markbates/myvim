@@ -2,6 +2,17 @@ snippet log "Description" !b
 fmt.Printf("### $1 -> %+v\n", $1)
 endsnippet
 
+snippet app "Description" !b
+func App() http.Handler {
+	$1
+}
+endsnippet
+
+snippet tsu "Description" !b
+ts := httptest.NewServer(${1:App()})
+defer ts.Close()
+endsnippet
+
 snippet main "" i
 package main
 
