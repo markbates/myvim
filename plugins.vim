@@ -42,6 +42,9 @@ Plug 'https://github.com/whatyouhide/vim-textobj-erb'
 Plug 'tpope/vim-surround'
 Plug 'janko-m/vim-test'
 Plug 'Valloric/YouCompleteMe'
-Plug 'benmills/vimux'
+" Plug 'benmills/vimux'
+"
+" Plug 'tpope/vim-rsi'
 
+Plug 'wfleming/vim-codeclimate'
 call plug#end()

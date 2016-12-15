@@ -35,3 +35,17 @@ endsnippet
 snippet link ""
 [$1](${2:$1})
 endsnippet
+
+snippet bfunc "" i
+func $1(c buffalo.Context) error {
+	$2
+}
+endsnippet
+
+snippet bmid "Description" i
+func $1(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		$2
+	}
+}
+endsnippet

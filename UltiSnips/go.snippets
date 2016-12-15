@@ -92,6 +92,20 @@ func $1(ctx *echo.Context) error {
 }
 endsnippet
 
+snippet bfunc "" i
+func $1(c buffalo.Context) error {
+	$2
+}
+endsnippet
+
+snippet bmid "Description" i
+func $1(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		$2
+	}
+}
+endsnippet
+
 snippet err "" !b
 if err != nil {
 	return err
