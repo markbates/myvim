@@ -17,6 +17,7 @@ autocmd FileType go map <leader>b :w<CR>:!./bench.sh<enter>
 autocmd FileType go map <leader>l :w<CR>:!gometalinter ./...<enter>
 autocmd FileType xml map <leader>l :w<CR>:silent %!xmllint --encode UTF-8 --format -<enter>
 autocmd FileType go map <leader>v :w<CR>:GoVet<enter>
+au FileType go map <Leader>f :GoDecls<enter>
 
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)

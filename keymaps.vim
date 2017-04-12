@@ -27,3 +27,5 @@ nnoremap gV `[v`]
 " else
   autocmd filetype * map <leader>r :w<cr>:!tt<enter>
 " endif
+"
+nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>

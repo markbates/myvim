@@ -6,6 +6,18 @@ ${3:<<(source/$4/$2.${5:txt}${6:, lang: text})}
 \end{codelisting}
 endsnippet
 
+snippet block "" b
+<%= $1 { %>
+$2
+<% } %>
+endsnippet
+
+snippet c "Code Block" b
+<%= code("${1:go}") { %>
+$2
+<% } %>
+endsnippet
+
 snippet code "Code Block" b
 \`\`\`${1:text}
 $2
@@ -48,4 +60,10 @@ func $1(next buffalo.Handler) buffalo.Handler {
 		$2
 	}
 }
+endsnippet
+
+snippet panel "Description" i
+<%= panel("$1", {$2}) { %>
+$3
+<% } %>
 endsnippet

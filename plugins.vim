@@ -7,7 +7,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 Plug 'rking/ag.vim'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'alvan/vim-closetag'
 Plug 'Raimondi/delimitMate'
 Plug 'mustache/vim-mustache-handlebars'
@@ -41,10 +41,12 @@ Plug 'https://github.com/whatyouhide/vim-textobj-erb'
 
 Plug 'tpope/vim-surround'
 Plug 'janko-m/vim-test'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-go', { 'do': 'make'}
+" Plug 'Valloric/YouCompleteMe'
 " Plug 'benmills/vimux'
 "
 " Plug 'tpope/vim-rsi'
-
+Plug 'floobits/floobits-neovim'
 Plug 'wfleming/vim-codeclimate'
 call plug#end()
