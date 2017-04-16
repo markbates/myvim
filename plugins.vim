@@ -43,6 +43,7 @@ Plug 'tpope/vim-surround'
 Plug 'janko-m/vim-test'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'sbdchd/neoformat'
 " Plug 'Valloric/YouCompleteMe'
 " Plug 'benmills/vimux'
 "

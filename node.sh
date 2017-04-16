@@ -30,5 +30,6 @@ npm install -g jsonlint
 npm install -g node-sass
 npm install -g npm
 npm install -g prettify
+npm install -g prettier
 npm install -g swagger-ui
 npm install -g typescript
