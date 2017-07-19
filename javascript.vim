@@ -4,7 +4,7 @@ autocmd FileType coffee map <leader>cs :!coffee %<enter>
 
 autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 autocmd BufRead,BufNewFile *.fizz setfiletype anko
-autocmd BufWritePre *.js Neoformat prettier
+autocmd BufWritePre *.js Neoformat prettiereslint
 
 " au BufWrite *.js :Autoformat
 au BufWrite *.json :Autoformat

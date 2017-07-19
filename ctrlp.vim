@@ -1,4 +1,4 @@
-"+++ CtrlP +++
+" +++ CtrlP +++
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_max_height = 10
 let g:ctrlp_mruf_max = 250
@@ -44,3 +44,10 @@ let g:ctrlp_use_caching = 0
 let g:ctrlp_open_new_file = 'et'
 
 map <leader>p :ClearCtrlPCache<cr>:CtrlP<enter>
+
+" map <leader>p :FZF<enter>
+" map <leader>b :Buffers<enter>
+" " map <leader>p :call fzf#run({'sink': 'tabedit'})<cr>
+" let g:fzf_layout = { 'down': '~75%' }
+" let g:fzf_buffers_jump = 1
+" let $FZF_DEFAULT_COMMAND = 'rg --files'

@@ -33,3 +33,4 @@ npm install -g prettify
 npm install -g prettier
 npm install -g swagger-ui
 npm install -g typescript
+npm install -g prettier-eslint-cli

@@ -3,7 +3,8 @@
     "StripeCheckout": false,
     "Stripe": false,
     "require": false,
-    "moment": false
+    "moment": false,
+    "Highcharts": false
   },
   "env": {
     "browser": true,
@@ -111,7 +112,7 @@
     "newline-after-var": "off",
     "newline-before-return": "off",
     "newline-per-chained-call": "off",
-    "no-alert": "error",
+    "no-alert": "off",
     "no-array-constructor": "error",
     "no-bitwise": "error",
     "no-caller": "error",
@@ -219,7 +220,7 @@
       "double"
     ],
     "radix": "error",
-    "require-jsdoc": "error",
+    "require-jsdoc": "off",
     "rest-spread-spacing": "error",
     "semi": "error",
     "semi-spacing": "error",
