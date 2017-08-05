@@ -56,4 +56,5 @@ Plug 'floobits/floobits-neovim'
 Plug 'wfleming/vim-codeclimate'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'jremmen/vim-ripgrep'
+Plug 'Lokaltog/vim-easymotion'
 call plug#end()

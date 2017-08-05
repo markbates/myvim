@@ -29,3 +29,4 @@ nnoremap gV `[v`]
 " endif
 "
 nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
+map <space> <Plug>(easymotion-prefix)
