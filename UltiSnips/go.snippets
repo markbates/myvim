@@ -2,10 +2,21 @@ snippet log "Description" !b
 fmt.Printf("### $1 -> %+v\n", $1)
 endsnippet
 
+snippet ctx "Description" !b
+tx := c.Value("tx").(*pop.Connection)
+endsnippet
+
 snippet app "Description" !b
 func App() http.Handler {
 	$1
 }
+endsnippet
+
+snippet walk "Description" !b
+err ${1::=} filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+	$2
+	return nil
+})
 endsnippet
 
 snippet tsu "Description" !b
@@ -94,6 +105,13 @@ snippet test "" !b
 func Test_$1(t *testing.T) {
   ${2:r := require.New(t)}
 }
+endsnippet
+
+snippet stest "" !b
+t.Run("$1", func(st *testing.T) {
+	r := require.New(t)
+	$2
+})
 endsnippet
 
 snippet roll "" !b
