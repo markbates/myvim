@@ -109,7 +109,7 @@ endsnippet
 
 snippet stest "" !b
 t.Run("$1", func(st *testing.T) {
-	r := require.New(t)
+	r := require.New(st)
 	$2
 })
 endsnippet

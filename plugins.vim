@@ -33,6 +33,7 @@ Plug 'mxw/vim-jsx'
 
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-markdown'
 
 Plug 'tpope/vim-rails'
@@ -44,7 +45,7 @@ Plug 'https://github.com/whatyouhide/vim-textobj-erb'
 
 Plug 'tpope/vim-surround'
 Plug 'janko-m/vim-test'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'sbdchd/neoformat'
 Plug 'Valloric/YouCompleteMe'
@@ -52,9 +53,10 @@ Plug 'Valloric/YouCompleteMe'
 "
 " Plug 'tpope/vim-rsi'
 Plug 'mklabs/split-term.vim'
-Plug 'floobits/floobits-neovim'
+" Plug 'floobits/floobits-neovim'
 Plug 'wfleming/vim-codeclimate'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'Lokaltog/vim-easymotion'
+Plug 'skwp/vim-html-escape'
 call plug#end()

@@ -4,7 +4,8 @@
     "Stripe": false,
     "require": false,
     "moment": false,
-    "Highcharts": false
+    "Highcharts": false,
+    "hljs": false
   },
   "env": {
     "browser": true,
