@@ -28,5 +28,7 @@ nnoremap gV `[v`]
   autocmd filetype * map <leader>r :w<cr>:!tt<enter>
 " endif
 "
+"
+nnoremap <leader>to :tabonly<cr>
 nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
 map <space> <Plug>(easymotion-prefix)
