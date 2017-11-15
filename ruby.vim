@@ -8,7 +8,7 @@ autocmd FileType ruby map <leader>mt :!tt ruby %<enter>
 autocmd FileType ruby map <leader>mm :!tt rr<enter>
 autocmd FileType ruby map <leader>mtl :!tt ruby %:<C-r>=line('.')<CR><CR>
 " au BufWrite *.rb :Autoformat
-autocmd BufWritePre *.rb Neoformat rubocop
+" autocmd BufWritePre *.rb Neoformat rubocop
 " autocmd BufWrite *.rb :Rubocop -a
 " au BufWrite *.rb :!rubocop\ -a\ -s\ -o\ \/tmp\/rcop %<enter>
 " au BufWrite *.rb :.,$!rubocop -a %<cr>

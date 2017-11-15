@@ -11,6 +11,8 @@ vmap <D-[> <gv
 vmap <D-]> >gv
 nmap <C-h> gT
 nmap <C-l> gt
+nmap nn :lnext<cr>
+nmap pp :lprevious<cr>
 
 " open files in a new tab
 nnoremap gf <C-W>gf

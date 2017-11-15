@@ -1,5 +1,5 @@
 "+++ General +++
-set shell=bash
+set shell=fish
 let mapleader=","
 set noswapfile
 autocmd BufWritePre * :%s/\s\+$//e "strip trailing white space
@@ -30,3 +30,4 @@ function! WindowNumber()
 endfunction
 set statusline=win:%{WindowNumber()}
 
+set inccommand=split

@@ -14,3 +14,5 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 let g:jsx_ext_required = 0
 au BufWrite *.jsx :Esformatter
 
+autocmd FileType vue syntax sync fromstart
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css

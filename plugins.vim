@@ -30,6 +30,7 @@ Plug 'millermedeiros/vim-esformatter'
 Plug 'pangloss/vim-javascript'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mxw/vim-jsx'
+Plug 'posva/vim-vue'
 
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -59,4 +60,9 @@ Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'skwp/vim-html-escape'
+
+Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
+
+Plug 'machakann/vim-highlightedyank'
 call plug#end()
