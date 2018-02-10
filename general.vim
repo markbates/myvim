@@ -31,3 +31,6 @@ endfunction
 set statusline=win:%{WindowNumber()}
 
 set inccommand=split
+
+let g:titlecase_map_keys = 0
+

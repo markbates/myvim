@@ -12,6 +12,7 @@ set showmode
 set splitright
 set splitbelow
 set showmatch
+hi MatchParen cterm=none ctermbg=green ctermfg=blue
 set incsearch
 set hlsearch
 set ignorecase
@@ -28,3 +29,4 @@ set expandtab
 set softtabstop=2
 set autoindent
 set smartindent
+

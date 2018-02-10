@@ -3,7 +3,10 @@ pretty.Println("### $1 ->", $1)
 endsnippet
 
 snippet ctx "Description" !b
-tx := c.Value("tx").(*pop.Connection)
+tx, ok := c.Value("tx").(*pop.Connection)
+if !ok {
+	return errors.WithStack(errors.New("no transaction found"))
+}
 endsnippet
 
 snippet app "Description" !b

@@ -1,5 +1,7 @@
 " +++ Plugins
 call plug#begin()
+Plug 'christoomey/vim-titlecase'
+
 Plug 'nsf/gocode'
 Plug 'fatih/vim-go'
 Plug 'sebdah/vim-delve'
@@ -65,4 +67,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 
 Plug 'machakann/vim-highlightedyank'
+Plug 'kien/rainbow_parentheses.vim'
+
+Plug 'dhruvasagar/vim-table-mode'
 call plug#end()
