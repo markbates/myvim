@@ -2,6 +2,7 @@
 let $GO_ENV="test"
 autocmd FileType go map <leader>a :AV<cr>
 autocmd FileType go map <leader>go :w<CR>:!go run %<enter>
+autocmd FileType go map <leader>bb :w<CR>:!packr install -v ./buffalo<enter>
 
 " if exists('$TMUX')
 "   autocmd filetype go map <leader>go :w<cr>:VimuxRunCommand("clear; go run ". bufname("%"))<enter>

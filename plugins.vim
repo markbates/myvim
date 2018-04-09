@@ -3,7 +3,7 @@ call plug#begin()
 Plug 'christoomey/vim-titlecase'
 
 Plug 'nsf/gocode'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'sebdah/vim-delve'
 Plug 'benmills/vim-golang-alternate'
 
@@ -51,7 +51,7 @@ Plug 'janko-m/vim-test'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'sbdchd/neoformat'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --go-completer --js-completer' }
 " Plug 'benmills/vimux'
 "
 " Plug 'tpope/vim-rsi'
@@ -70,4 +70,10 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'kien/rainbow_parentheses.vim'
 
 Plug 'dhruvasagar/vim-table-mode'
+
+Plug 'tpope/vim-dadbod'
+
+Plug 'cespare/vim-toml'
+Plug 'godoctor/godoctor.vim', { 'do': ':GoDoctorInstall'}
+" Plug 'blueyed/vim-diminactive'
 call plug#end()
