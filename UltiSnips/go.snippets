@@ -1,5 +1,37 @@
 snippet log "Description" !b
-pretty.Println("### $1 ->", $1)
+fmt.Println("### $1 ->", $1)
+endsnippet
+
+snippet msi "" i
+${1:m := }map[string]interface{}{
+	$2
+}
+endsnippet
+
+snippet gen "Description" i
+func New(opts *Options) (*genny.Generator, error) {
+	g := genny.New()
+
+	if err := opts.Validate(); err != nil {
+		return g, err
+	}
+
+	$1
+
+	return g, nil
+}
+endsnippet
+
+snippet buf "Description" i
+bb := &bytes.Buffer{}
+$1
+endsnippet
+
+snippet gr "Description" i
+func(r *genny.Runner) error {
+	$1
+	return nil
+}
 endsnippet
 
 snippet ctx "Description" !b
@@ -36,7 +68,7 @@ func main() {
 endsnippet
 
 snippet ins "Description" !b
-pretty.Println("### $1 ->", $1)
+fmt.Printf("### $1 (%T) -> %v\n", $1, $1)
 endsnippet
 
 snippet inst "Description" !b
@@ -44,7 +76,7 @@ fmt.Printf("### $1 -> %T\n", $1)
 endsnippet
 
 snippet insq "Description" !b
-pretty.Printf("### $1 -> %q\n", $1)
+fmt.Printf("### $1 -> %q\n", $1)
 endsnippet
 
 snippet init "Description" b
@@ -73,7 +105,7 @@ endsnippet
 
 snippet errv "" i
 if err != nil {
-	return ${1:nil}, errors.WithStack(err)
+	return ${1:nil}, err
 }
 endsnippet
 
@@ -111,7 +143,7 @@ func Test_$1(t *testing.T) {
 endsnippet
 
 snippet stest "" !b
-t.Run("$1", func(st *testing.T) {
+t.Run($1, func(st *testing.T) {
 	r := require.New(st)
 	$2
 })
@@ -143,24 +175,20 @@ endsnippet
 
 snippet err "" !b
 if err != nil {
-	return errors.WithStack(err)
+	return err
 }
 endsnippet
 
 snippet errr "" !b
 if err := $1; err != nil {
-	return errors.WithStack(err)
+	return err
 }
 endsnippet
 
 
-snippet suite "" !b
-type $1Suite struct {
-	th.Suite
-}
-
-func Test$1Suite(t *testing.T) {
-	suite.Run(t, &$1Suite{})
+snippet rtest "" !b
+func (r *$1Suite) Test_$2() {
+	$3
 }
 endsnippet
 

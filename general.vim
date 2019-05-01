@@ -29,8 +29,9 @@ function! WindowNumber()
     return str
 endfunction
 set statusline=win:%{WindowNumber()}
-
+set statusline+=col:\ %c,
 set inccommand=split
 
 let g:titlecase_map_keys = 0
 
+autocmd BufNewFile,BufRead  *.lush :setfiletype lush

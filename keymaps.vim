@@ -32,5 +32,8 @@ nnoremap gV `[v`]
 "
 "
 nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tn :tabnext<cr>
+nnoremap <leader>tp :tabprevious<cr>
 nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
 map <space> <Plug>(easymotion-prefix)

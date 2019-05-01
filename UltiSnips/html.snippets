@@ -1,6 +1,15 @@
 #snippet < "Description" !b
 #<$1${2: }>$3</$1
 #endsnippet
+snippet partial "" !b
+<%= partial("$1") %>
+endsnippet
+
+snippet fora "plush: for (a) in b" !b
+<%= for ($1) in $2{ %>
+  $3
+<% } %>
+endsnippet
 
 snippet block "description" !b
 <%= $1 { %>
