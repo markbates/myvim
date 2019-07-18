@@ -1,11 +1,35 @@
-snippet log "Description" !b
-fmt.Println("### $1 ->", $1)
-endsnippet
-
 snippet msi "" i
 ${1:m := }map[string]interface{}{
 	$2
 }
+endsnippet
+
+snippet pant "" i
+panic(fmt.Sprintf("TYPE: %T\n", $1))
+endsnippet
+
+snippet table ""
+	table := []struct {
+		in string
+		$1
+		err bool
+	}{
+		{$2}	,
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in, func(st *testing.T) {
+			r := require.New(st)
+
+			$3
+
+			if tt.err {
+				r.Error(err)
+			}
+			r.NoError(err)
+
+		})
+	}
 endsnippet
 
 snippet gen "Description" i
@@ -37,7 +61,7 @@ endsnippet
 snippet ctx "Description" !b
 tx, ok := c.Value("tx").(*pop.Connection)
 if !ok {
-	return errors.WithStack(errors.New("no transaction found"))
+	return fmt.Errorf("no transaction found")
 }
 endsnippet
 
@@ -48,10 +72,13 @@ func App() http.Handler {
 endsnippet
 
 snippet walk "Description" !b
-err ${1::=} filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
-	$2
-	return nil
-})
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		$1
+		return nil
+	})
 endsnippet
 
 snippet tsu "Description" !b
@@ -68,11 +95,7 @@ func main() {
 endsnippet
 
 snippet ins "Description" !b
-fmt.Printf("### $1 (%T) -> %v\n", $1, $1)
-endsnippet
-
-snippet inst "Description" !b
-fmt.Printf("### $1 -> %T\n", $1)
+fmt.Printf("### `!v expand("%")`:`!v expand(line("."))` $1 (%T) -> %q %+v\n", $1, $1, $1)
 endsnippet
 
 snippet insq "Description" !b

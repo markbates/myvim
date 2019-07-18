@@ -18,3 +18,5 @@ source $HOME/.config/nvim/closetag.vim
 source $HOME/.config/nvim/tagbar.vim
 source $HOME/.config/nvim/tmux.vim
 source $HOME/.config/nvim/ycm.vim
+source $HOME/.config/nvim/lush.vim
+source $HOME/.config/nvim/peg.vim

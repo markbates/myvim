@@ -1,5 +1,5 @@
 "+++ General +++
-set shell=fish
+" set shell=fish
 let mapleader=","
 set noswapfile
 autocmd BufWritePre * :%s/\s\+$//e "strip trailing white space

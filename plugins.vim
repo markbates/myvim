@@ -1,10 +1,10 @@
 " +++ Plugins
 call plug#begin()
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-commentary'
 Plug 'christoomey/vim-titlecase'
-"
+Plug 'szw/vim-smartclose'
 " Plug 'nsf/gocode'
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -16,9 +16,10 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "
 Plug 'rking/ag.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-" " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" " Plug 'junegunn/fzf.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'alvan/vim-closetag'
 Plug 'Raimondi/delimitMate'
 " Plug 'mustache/vim-mustache-handlebars'
@@ -27,7 +28,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'tomtom/tcomment_vim'
 "
-" Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'edkolev/tmuxline.vim'
 "
@@ -79,7 +80,6 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'kien/rainbow_parentheses.vim'
 "
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'tpope/vim-dadbod'
 
 Plug 'gf3/peg.vim'

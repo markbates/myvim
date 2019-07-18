@@ -3,7 +3,7 @@ autocmd FileType js map <leader>js :!node %<enter>
 autocmd FileType coffee map <leader>cs :!coffee %<enter>
 
 autocmd BufRead,BufNewFile *.es6 setfiletype javascript
-autocmd BufRead,BufNewFile *.fizz setfiletype anko
+autocmd BufRead,BufNewFile *.fizz setfiletype lush
 autocmd BufWritePre *.js Neoformat prettiereslint
 
 " au BufWrite *.js :Autoformat

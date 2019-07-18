@@ -22,7 +22,7 @@ let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
+call deoplete#custom#source('emoji', 'filetypes', [])
 " filetype plugin on
 " let g:deoplete#enable_at_startup = 1
 " let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
@@ -40,3 +40,4 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " let g:deoplete#sources#go#json_directory = $GOPATH.'/deoplete-cache'
 " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " autocmd CompleteDone * pclose!
+"

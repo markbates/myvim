@@ -23,12 +23,13 @@ set lazyredraw          " redraw only when we need to.
 "+++ Lines & Columns +++
 set cursorline
 set relativenumber
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set softtabstop=2
-set autoindent
-set smartindent
+set tabstop=2 softtabstop=0 expandtab shiftwidth=4 smarttab
+" set tabstop=2
+" set shiftwidth=2
+" set expandtab
+" set softtabstop=2
+" set autoindent
+" set smartindent
 
 hi def Dim cterm=none ctermbg=none ctermfg=242
 
