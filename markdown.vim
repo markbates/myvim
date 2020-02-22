@@ -7,3 +7,4 @@ let g:table_mode_corner='|'
 " autocmd BufNewFile,BufRead  *.md :silent :TableModeEnable
 autocmd BufNewFile,BufRead  *.md :silent :setlocal spell spelllang=en_us
 
+set linebreak

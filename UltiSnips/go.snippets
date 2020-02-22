@@ -4,6 +4,55 @@ ${1:m := }map[string]interface{}{
 }
 endsnippet
 
+snippet cli "" i
+func main() {
+	ctx := context.Background()
+	root, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	args := os.Args[1:]
+	if err := cli.Main(ctx, root, args); err != nil {
+		log.Fatal(err)
+	}
+}
+endsnippet
+
+snippet cmd
+func $1(ctx context.Context, args []string) error {
+	opts := struct {
+		help bool
+	}{}
+
+	flags := flag.NewFlagSet("$2", flag.ContinueOnError)
+	flags.BoolVar(&opts.help, "h", false, "display help")
+
+	cmdx.Usage(ctx, flags)
+
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+
+	if opts.help {
+		flags.Usage()
+		return nil
+	}
+
+	args = flags.Args()
+	return nil
+}
+endsnippet
+
+snippet jim "" !i
+func $1(ctx context.Context, root string, args []string) error {
+	return nil
+}
+endsnippet
+
+snippet inst "" i
+fmt.Printf("TYPE: %T\n", $1)
+endsnippet
+
 snippet pant "" i
 panic(fmt.Sprintf("TYPE: %T\n", $1))
 endsnippet
@@ -25,7 +74,9 @@ snippet table ""
 
 			if tt.err {
 				r.Error(err)
+				return
 			}
+
 			r.NoError(err)
 
 		})
@@ -95,7 +146,7 @@ func main() {
 endsnippet
 
 snippet ins "Description" !b
-fmt.Printf("### `!v expand("%")`:`!v expand(line("."))` $1 (%T) -> %q %+v\n", $1, $1, $1)
+fmt.Println(">>>TODO `!v expand("%")`:`!v expand(line("."))`: $1 ", $1)
 endsnippet
 
 snippet insq "Description" !b

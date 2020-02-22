@@ -4,10 +4,12 @@ autocmd FileType coffee map <leader>cs :!coffee %<enter>
 
 autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 autocmd BufRead,BufNewFile *.fizz setfiletype lush
+autocmd BufRead,BufNewFile *.vinyl setfiletype json
 autocmd BufWritePre *.js Neoformat prettiereslint
 
 " au BufWrite *.js :Autoformat
 au BufWrite *.json :Autoformat
+au BufWrite *.vinyl :Autoformat
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 

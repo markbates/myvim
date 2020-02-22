@@ -34,4 +34,6 @@ set inccommand=split
 
 let g:titlecase_map_keys = 0
 
-autocmd BufNewFile,BufRead  *.lush :setfiletype lush
+autocmd BufNewFile,BufRead *.build set syntax=Dockerfile
+
+" set foldmethod=indent

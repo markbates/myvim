@@ -8,3 +8,5 @@ map <leader>gp :Gpush<cr>
 " map <leader>gca :!git commit -a -v<enter>
 map <leader>gca :Gcommit -a -v<cr>
 " map <leader>gcb :!git checkout -bv<enter>
+"
+:command Ghead !git checkout head %

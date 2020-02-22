@@ -1,4 +1,5 @@
 autocmd BufRead,BufNewFile *.lush setlocal filetype=lush
+" autocmd BufNewFile,BufRead  *.lush :setfiletype lush
 
 :command LushFmt !lush fmt -w %
 :command LushRun !lush run %

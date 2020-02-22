@@ -7,7 +7,11 @@ ${3:<<(source/$4/$2.${5:txt}${6:, lang: text})}
 endsnippet
 
 snippet godoc "godoc link" i
-[\`github.com/$1\`](https://godoc.org/github.com/$1)
+[\`${1:github.com/}\`](https://godoc.org/$1)
+endsnippet
+
+snippet bdoc "buffalo godoc link" i
+[\`gobuffalo/$1\`](https://godoc.org/github.com/gobuffalo/$1)
 endsnippet
 
 snippet block "" b
